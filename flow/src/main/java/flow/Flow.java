@@ -367,6 +367,7 @@ public final class Flow {
 
     TraversalState state = TraversalState.ENQUEUED;
     PendingTraversal next;
+    boolean setupServices = false;
 
     void enqueue(PendingTraversal pendingTraversal) {
       if (this.next == null) {
@@ -383,8 +384,10 @@ public final class Flow {
                 : "transition not yet dispatched!");
       }
       // Is not set by noop and bootstrap transitions.
-      if (nextHistory != null) {
+      if (setupServices) {
         tearDownKeys.add(history.top());
+      }
+      if (nextHistory != null) {
         history = nextHistory;
       }
       state = TraversalState.FINISHED;
@@ -414,6 +417,7 @@ public final class Flow {
 
     void dispatch(History nextHistory, Direction direction) {
       this.nextHistory = checkNotNull(nextHistory, "nextHistory");
+      this.setupServices = true;
       if (dispatcher == null) {
         throw new AssertionError("Bad doExecute method allowed dispatcher to be cleared");
       }
