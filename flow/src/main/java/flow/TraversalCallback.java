@@ -16,8 +16,12 @@
 
 package flow;
 
+import android.support.annotation.NonNull;
+
 /** Supplied by Flow to the Listener, which is responsible for calling onComplete(). */
 public abstract class TraversalCallback {
+  @NonNull public final Flow flow;
+
   /**
    * The history we're transitioning to. The dispatcher can rewrite this to whatever should be the final state.
    */
@@ -30,4 +34,8 @@ public abstract class TraversalCallback {
    * Calling more than once will result in an exception.
    */
   public abstract void onTraversalCompleted();
+
+  TraversalCallback(@NonNull Flow flow) {
+    this.flow = flow;
+  }
 }
