@@ -1,5 +1,5 @@
 ext.deps = [
-    android_gradle_plugin      : 'com.android.tools.build:gradle:2.4.0-alpha6',
+    android_gradle_plugin      : 'com.android.tools.build:gradle:2.3.2',
 ]
 
 ext.minSdkVersion = 14
@@ -13,6 +13,7 @@ task wrapper(type: Wrapper) {
 allprojects {
   buildscript {
     repositories {
+      maven { url 'https://maven.google.com' }
       jcenter()
     }
   }
