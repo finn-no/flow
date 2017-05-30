@@ -160,7 +160,7 @@ public final class Flow {
       // Nothing is happening;
       // OR, there is an outstanding callback and nothing will happen after it;
       // So enqueue a bootstrap traversal.
-      move(new PendingTraversal(this) {
+      move(new PendingTraversal() {
         @Override void doExecute() {
           bootstrap(history, restore);
         }
@@ -195,7 +195,7 @@ public final class Flow {
    * Replaces the history with the one given and dispatches in the given direction.
    */
   public void setHistory(@NonNull final History history, @NonNull final Direction direction) {
-    move(new PendingTraversal(this) {
+    move(new PendingTraversal() {
       @Override void doExecute() {
         dispatch(preserveEquivalentPrefix(getHistory(), history), direction);
       }
@@ -232,7 +232,7 @@ public final class Flow {
    * Objects' equality is always checked using {@link Object#equals(Object)}.
    */
   public void set(@NonNull final Object newTopKey) {
-    move(new PendingTraversal(this) {
+    move(new PendingTraversal() {
       @Override void doExecute() {
         if (newTopKey.equals(history.top())) {
           dispatch(history, Direction.REPLACE);
@@ -291,7 +291,7 @@ public final class Flow {
         && pendingTraversal.state != TraversalState.FINISHED);
     if (!canGoBack) return false;
 
-    move(new PendingTraversal(this) {
+    move(new PendingTraversal() {
       @Override void doExecute() {
         if (history.size() <= 1) {
           // The history shrank while this op was pending. It happens, let's
@@ -367,10 +367,6 @@ public final class Flow {
 
     TraversalState state = TraversalState.ENQUEUED;
     PendingTraversal next;
-
-    PendingTraversal(@NonNull Flow flow) {
-      super(flow);
-    }
 
     void enqueue(PendingTraversal pendingTraversal) {
       if (this.next == null) {
