@@ -17,12 +17,17 @@
 package flow;
 
 /** Supplied by Flow to the Listener, which is responsible for calling onComplete(). */
-public interface TraversalCallback {
+public abstract class TraversalCallback {
+  /**
+   * The history we're transitioning to. The dispatcher can rewrite this to whatever should be the final state.
+   */
+  public History nextHistory;
+
   /**
    * Must be called exactly once to indicate that the corresponding transition has completed.
    *
    * If not called, the history will not be updated and further calls to Flow will not execute.
    * Calling more than once will result in an exception.
    */
-  void onTraversalCompleted();
+  public abstract void onTraversalCompleted();
 }

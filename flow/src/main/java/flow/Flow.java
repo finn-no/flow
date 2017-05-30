@@ -363,11 +363,10 @@ public final class Flow {
     FINISHED
   }
 
-  private abstract class PendingTraversal implements TraversalCallback {
+  private abstract class PendingTraversal extends TraversalCallback {
 
     TraversalState state = TraversalState.ENQUEUED;
     PendingTraversal next;
-    History nextHistory;
 
     void enqueue(PendingTraversal pendingTraversal) {
       if (this.next == null) {
